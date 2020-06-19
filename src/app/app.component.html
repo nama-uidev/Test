@@ -1,0 +1,27 @@
+<app-region [labelName]="labelName" [items]="regions" (valueChange)="displayCountries($event)"></app-region>
+<div *ngIf="isRegionSelected">
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> name </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{dataSource}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="capital">
+      <mat-header-cell *matHeaderCellDef> capital </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.capital}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="population">
+      <mat-header-cell *matHeaderCellDef> population </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.population}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="currencies">
+      <mat-header-cell *matHeaderCellDef> currencies </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.currencies}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="flag">
+      <mat-header-cell *matHeaderCellDef> flag </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.flag}} </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>
