@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { RegionComponent } from './region/region.component';
+import { RegionComponent } from '../app/components/region/region.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -12,6 +12,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { CountryService } from './services/country.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
+import { StoreModule } from '@ngrx/store';
+import { RegionReducer } from '../app/reducers/region.reducer';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { MatTableModule } from '@angular/material/table';
     MatSelectModule,
     MatFormFieldModule,
     HttpClientModule,
-    MatTableModule
+    MatTableModule,
+    StoreModule.forRoot({ regions: RegionReducer })
   ],
   providers: [CountryService],
   bootstrap: [AppComponent]

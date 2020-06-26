@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { CountryService } from './services/country.service';
 import { ICountryData } from './models/country';
-import { MatTableDataSource } from '@angular/material/table';
+import { Observable } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { IRegion } from '../app/models/regions';
 
 @Component({
   selector: 'app-root',
@@ -9,15 +11,15 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  displayedColumns: string[] = ['name', 'capital', 'population', 'currencies', 'flag'];
-  dataSource: any;
-  constructor(private countryService: CountryService) { }
+  regions: IRegion[];
+  constructor(private regionStore: Store<{ regions: IRegion[] }>, private countryService: CountryService) {
+    this.regionStore.pipe(select('regions')).subscribe(values => {
+      this.regions = values;
+    })
+  }
   title = 'country-todo-app';
-  regions = [
-    { value: 'Europe', name: 'Europe' },
-    { value: 'Asia', name: 'Asia' }
-  ];
   labelName: string = 'Region';
+  labelCountry: string = 'Country';
   isRegionSelected: boolean;
   countryData: ICountryData[] = [];
   countryDataRetrieved: any;
@@ -39,7 +41,5 @@ export class AppComponent {
       }
       )
     });
-    console.log(this.countryData);
-    this.dataSource = this.countryData;
   }
 }
