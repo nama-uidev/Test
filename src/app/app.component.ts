@@ -22,7 +22,7 @@ export class AppComponent {
   labelCountry: string = 'Country';
   isRegionSelected: boolean;
   countryData: ICountryData[] = [];
-  countryDataRetrieved: any;
+  countryDataRetrieved: ICountryData[];
   obj: ICountryData;
 
   displayCountries(value) {
