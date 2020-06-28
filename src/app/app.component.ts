@@ -1,45 +1,36 @@
-import { Component } from '@angular/core';
-import { CountryService } from './services/country.service';
-import { ICountryData } from './models/country';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
-import { IRegion } from '../app/models/regions';
+import { GetRegions, GetCountries } from './actions/actions';
+import { IAppState } from './states/app.state';
+import { selectRegionList, selectCountriesList } from './selectors/app.selectors';
+import { IRegion } from './models/regions';
+import { ICountryList } from './models/countryList';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  regions: IRegion[];
-  constructor(private regionStore: Store<{ regions: IRegion[] }>, private countryService: CountryService) {
-    this.regionStore.pipe(select('regions')).subscribe(values => {
-      this.regions = values;
-    })
-  }
+export class AppComponent implements OnInit{
   title = 'country-todo-app';
-  labelName: string = 'Region';
-  labelCountry: string = 'Country';
-  isRegionSelected: boolean;
-  countryData: ICountryData[] = [];
-  countryDataRetrieved: ICountryData[];
-  obj: ICountryData;
+  labelName = 'Region';
+  labelCountry = 'Country';
+  showTable = false;
+  regions$: Observable<IRegion[]>;
+  countries$: Observable<ICountryList[]>;
 
-  displayCountries(value) {
-    this.isRegionSelected = true;
-    this.countryService.getCountryData(value).subscribe(data => {
-      this.countryDataRetrieved = data;
-      this.countryDataRetrieved.forEach(element => {
-        this.obj = {
-          name: element.name,
-          capital: element.capital,
-          population: element.population,
-          currencies: element.currencies,
-          flag: element.flag
-        }
-        this.countryData.push(this.obj);
-      }
-      )
-    });
+  constructor(private store: Store<IAppState>) {
+    this.regions$ = this.store.pipe(select(selectRegionList));
+  }
+
+  ngOnInit(){
+    this.store.dispatch(new GetRegions());
+  }
+
+  displayCountries(value: string) {
+    this.showTable = false;
+    this.store.dispatch(new GetCountries(value));
+    this.countries$ = this.store.pipe(select(selectCountriesList));
   }
 }

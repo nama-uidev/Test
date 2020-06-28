@@ -13,12 +13,16 @@ import { CountryService } from './services/country.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import { StoreModule } from '@ngrx/store';
-import { RegionReducer } from '../app/reducers/region.reducer';
+import { CountryDetailsComponent } from './components/country-details/country-details.component';
+import { EffectsModule } from '@ngrx/effects';
+import { CountryEffects } from './effects/country.effects';
+import { appReducers } from './reducers/app.reducers';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RegionComponent
+    RegionComponent,
+    CountryDetailsComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
@@ -31,9 +35,12 @@ import { RegionReducer } from '../app/reducers/region.reducer';
     MatFormFieldModule,
     HttpClientModule,
     MatTableModule,
-    StoreModule.forRoot({ regions: RegionReducer })
+    StoreModule.forRoot(appReducers),
+    EffectsModule.forRoot([CountryEffects])
   ],
   providers: [CountryService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+}

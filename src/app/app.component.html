@@ -1,2 +1,5 @@
-<app-region [labelName]="labelName" [items]="regions" (valueChange)="displayCountries($event)"></app-region>
-<app-region *ngIf="this.isRegionSelected" [items]="countryData" [labelName]="labelCountry"></app-region>
+<div class="app-container">
+<app-region [labelName]="labelName" [items]="regions$ | async" (valueChange)="displayCountries($event)"></app-region>
+<app-region *ngIf="countries$" [items]="countries$ | async" [labelName]="labelCountry" (valueChange)="showTable = true;"></app-region>
+<app-country-details *ngIf="showTable" [data]="countries$ | async"></app-country-details>
+</div>

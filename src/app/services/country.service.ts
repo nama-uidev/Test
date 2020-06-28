@@ -7,7 +7,7 @@ export class CountryService {
   constructor(private httpClient: HttpClient) { }
 
   getCountryData(region: string) {
-    return this.httpClient.get(
+    return this.httpClient.get<any[]>(
       `${environment.baseUrl}restcountries.eu/rest/v2/region/${region}`
     );
   }

@@ -11,3 +11,7 @@ interface ICurrency {
     name: string;
     symbol: string;
 }
+
+export interface ICountryApi {
+    countries: ICountryData[];
+}
